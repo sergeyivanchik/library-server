@@ -16,6 +16,7 @@ require('./api/models/book');
 require('./api/models/author');
 require('./api/models/selectedBooks');
 require('./api/models/user');
+require('./api/models/comment');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
