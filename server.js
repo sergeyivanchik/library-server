@@ -6,6 +6,7 @@ const server = require('http').createServer(app);
 const jsonParser = express.json();
 const cors = require('cors');
 const toJson = require('@meanie/mongoose-to-json');
+const io = require('socket.io')(server);
 const port = require('./api/configs/port').port;
 
 
@@ -16,6 +17,7 @@ require('./api/models/book');
 require('./api/models/author');
 require('./api/models/selectedBooks');
 require('./api/models/user');
+require('./api/models/comment');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -28,3 +30,11 @@ app.use('/',require('./api/routes/index'));
 require('./api/passport/jwt.js');
 
 server.listen(port, () => console.log('port', port));
+
+io.on('connection', function (socket) {
+  console.log('User is connected!');
+
+  socket.on('sendToServer', data => {
+    console.log(data);
+  });
+});

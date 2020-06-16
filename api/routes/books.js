@@ -8,13 +8,9 @@ router.route("/")
   .post(bookController.addBook)
 
 router.route("/:id")
-  .get(bookController.getCurrentBook)
+  .get(passport.authenticate('jwt', { session: false }), bookController.getCurrentBook)
 
 router.route("/author/:authorId")
   .get(bookController.getBooksByAuthor)
-
-// router.route("/:bookId/:followerId")
-//   .get(bookController.setFollower)
-
 
 module.exports = router;

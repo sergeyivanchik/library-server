@@ -10,10 +10,6 @@ const bookSchema = new Schema({
   publisher: String,
   image: String,
   story: String
-  // followers: [{
-  //   type: Schema.Types.ObjectId,
-  //   ref: 'User'
-  // }],
 },
 {
   versionKey: false
