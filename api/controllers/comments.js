@@ -4,7 +4,7 @@ Comment = mongoose.model('Comment');
 
 const getCommentsByBook = async (req, res) => {
   await Comment.find({ book: req.params.bookId })
-    .populate('user')
+    .populate('user', 'username')
     .populate('book')
     .then(comments => res.send(comments))
     .catch(error => {
