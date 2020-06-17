@@ -4,7 +4,7 @@ Comment = mongoose.model('Comment');
 
 const getCommentsByBook = async (req, res) => {
   await Comment.find({ book: req.params.bookId })
-    .populate('user', 'username')
+    .populate('user', 'username avatar')
     .populate('book')
     .then(comments => res.send(comments))
     .catch(error => {
@@ -24,7 +24,7 @@ const addComment = async (comment) => {
 
 const getCommentById = async (commentId) => {
   return await Comment.findById(commentId)
-    .populate('user', 'username')
+    .populate('user', 'username avatar')
     .then(data => data)
     .catch(error => console.log(error));
 };
