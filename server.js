@@ -31,10 +31,17 @@ require('./api/passport/jwt.js');
 
 server.listen(port, () => console.log('port', port));
 
+const commentsController = require('./api/controllers/comments');
+
 io.on('connection', function (socket) {
   console.log('User is connected!');
 
-  socket.on('sendToServer', data => {
-    console.log(data);
+  socket.on('sendToServer', comment => {
+    commentsController.addComment(comment)
+      .then(data => {
+        socket.broadcast.emit('addComment', data);
+        socket.emit('addComment', data);
+      })
+      .catch(err => console.log(err))
   });
 });
