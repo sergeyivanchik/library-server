@@ -13,4 +13,7 @@ router.route("/:id")
 router.route("/author/:authorId")
   .get(bookController.getBooksByAuthor)
 
+router.route("/getRating/:bookId/:userId")
+  .post(bookController.getBookRating)
+
 module.exports = router;
