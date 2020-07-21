@@ -9,7 +9,11 @@ const bookSchema = new Schema({
   publishing: Number,
   publisher: String,
   image: String,
-  story: String
+  story: String,
+  rates: [{
+    user: { type: Schema.ObjectId, ref: "User" },
+    rate: Number
+  }]
 },
 {
   versionKey: false

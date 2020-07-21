@@ -32,16 +32,31 @@ require('./api/passport/jwt.js');
 server.listen(port, () => console.log('port', port));
 
 const commentsController = require('./api/controllers/comments');
+const booksController = require('./api/controllers/books');
 
 io.on('connection', function (socket) {
   console.log('User is connected!');
 
-  socket.on('sendToServer', comment => {
+  socket.on('sendCommentToServer', comment => {
     commentsController.addComment(comment)
       .then(data => {
         socket.broadcast.emit('addComment', data);
         socket.emit('addComment', data);
       })
       .catch(err => console.log(err))
+  });
+
+  socket.on('sendRatingToServer', async params => {
+    await booksController.changeRating(params);
+    await booksController.getBookById(params.bookId)
+    .then(data => {
+      const averageRating =
+        data.rates?.length &&
+        (data.rates.reduce((acc, elem) => acc + elem.rate, 0) / data.rates.length).toFixed(1);
+
+      socket.broadcast.emit('getRating', { averageRating: averageRating || 0 });
+      socket.emit('getRating', { averageRating: averageRating || 0 });
+    })
+    .catch(err => console.log(err))
   });
 });
